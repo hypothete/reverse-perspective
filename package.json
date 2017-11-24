@@ -1,0 +1,15 @@
+{
+  "name": "reverse-perspective",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "hypothet",
+  "license": "ISC",
+  "dependencies": {
+    "ccapture.js": "^1.0.7",
+    "three": "^0.88.0"
+  }
+}

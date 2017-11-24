@@ -1,0 +1,18 @@
+body {
+  font-family: monospace;
+  color: #ccc;
+  background-color: #333;
+  margin: 0;
+}
+
+#controls {
+  position: absolute;
+  left: 1em;
+  bottom: 2em;
+  width: 100%;
+}
+
+input {
+  display: block;
+  width: 100%;
+}
