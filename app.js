@@ -1,7 +1,8 @@
 var can = document.querySelector('canvas');
 var scene = new THREE.Scene();
-var w = 20 * window.innerWidth / window.innerHeight;
-var h = 20;
+var cZ = 50;
+var w = cZ * window.innerWidth / window.innerHeight;
+var h = cZ;
 var camera = new THREE.OrthographicCamera( -w/2, w/2, h/2, -h/2, -1000, 1000);
 var renderer = new THREE.WebGLRenderer({ canvas: can, antialias: true });
 var slider = document.querySelector('#slider');
@@ -26,16 +27,12 @@ scene.add(planeMesh);
 
 slider.oninput = function () {
   camera.projectionMatrix.elements[11] = sliderLabel.textContent = Number(slider.value);
-  //camera.position.z = Math.min(0, -100 + Math.max(1000*val/Number(slider.max), 0));
-  //console.log(camera.position.z);
 };
 
 can.addEventListener('wheel', function (evt) {
   evt.preventDefault();
   camera.projectionMatrix.elements[11] += 0.001*evt.deltaY/Math.abs(evt.deltaY);
   slider.value = sliderLabel.textContent = camera.projectionMatrix.elements[11];
-  //camera.position.z = Math.min(0, -100 + Math.max(1000*Number(slider.value)/Number(slider.max), 0));
-  //console.log(camera.position.z);
 });
 
 can.addEventListener('mousemove', function (evt) {
@@ -64,7 +61,7 @@ can.addEventListener('click', function (evt) {
 
 window.onresize = function () {
   renderer.setSize(window.innerWidth, window.innerHeight);
-  camera.left = -10 * window.innerWidth / window.innerHeight;
+  camera.left = -(cZ/2) * window.innerWidth / window.innerHeight;
   camera.right = -camera.left;
   camera.updateProjectionMatrix();
 };
@@ -83,48 +80,9 @@ Promise.all([
   mids = bundle[1];
   roofs = bundle[2];
 
-  // effItUp();
   buildItUp();
   animate();
 });
-
-function makeEff () {
-  var par = new THREE.Object3D();
-  var tbGeo = new THREE.BoxBufferGeometry(3,1,1);
-  var topBar = new THREE.Mesh( tbGeo, material );
-  topBar.position.set(0,2,0);
-
-  var dnGeo = new THREE.BoxBufferGeometry(1,4,1);
-  var dnBar = new THREE.Mesh( dnGeo, material );
-  dnBar.position.set(1,-0.5,0);
-
-  var mdGeo = new THREE.BoxBufferGeometry(1,1,1);
-  var mdBar = new THREE.Mesh( mdGeo, material );
-  mdBar.position.set(0,0,0);
-
-  par.add(topBar, dnBar, mdBar);
-  return par;
-}
-
-function effItUp() {
-  var sp = 11;
-  var nn = 5;
-  var nm = 9;
-  for (var i=0; i<nn; i++) {
-    for (var j=0; j<nn; j++) {
-      for(var k=0; k<nm; k++) {
-        var newEff = makeEff();
-        newEff.position.x = (i-nn/2)*sp;
-        newEff.position.y = (j-nn/2)*sp;
-        newEff.position.z = k*sp;
-        newEff.rotation.x = 0.2*Math.random()-0.1;
-        newEff.rotation.y = 0.2*Math.random()-0.1;
-        newEff.rotation.z = 0.2*Math.random()-0.1;
-        scene.add(newEff);
-      }
-    }
-  }
-}
 
 function animate () {
   requestAnimationFrame(animate);
