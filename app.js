@@ -45,18 +45,22 @@ can.addEventListener('mousemove', function (evt) {
 });
 
 can.addEventListener('click', function (evt) {
-  if (capturer || (!evt.shiftKey)) return;
-  capturer = new CCapture( {
-	  framerate: 60,
-    format: 'webm',
-    verbose: true
-  });
-  capturer.start();
   setTimeout(function () {
-    capturer.stop();
-    capturer.save();
-    capturer = null;
-  }, 3000);
+    if (capturer || (!evt.shiftKey)) return;
+    console.log('started');
+    capturer = new CCapture( {
+  	  framerate: 60,
+      format: 'gif',
+      workersPath: 'vendor/'
+    });
+    capturer.start();
+    setTimeout(function () {
+      capturer.stop();
+      capturer.save();
+      capturer = null;
+      console.log('ended');
+    }, 1000);
+  }, 1000);
 });
 
 window.onresize = function () {
